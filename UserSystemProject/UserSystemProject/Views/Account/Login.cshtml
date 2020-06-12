@@ -1,0 +1,75 @@
+﻿@model UserSystemProject.Models.Account.LoginViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Kullanıcı Girişi</title>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div id="loginbox" style="margin-top:125px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class="panel-title">Hoşgeldiniz</div>
+                    <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="~/Account/ForgotPassword">Şifrenizi mi unuttunuz?</a></div>
+                </div>
+
+                <div style="padding-top:30px" class="panel-body">
+                    @if (TempData["message"] != null)
+                    {
+                        <div class="alert alert-success" style="text-align:center">
+                            @TempData["message"]
+                        </div>
+                    }
+                <form asp-controller="Account" asp-action="Login" method="post" class="form-horizontal" role="form">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div style="margin-bottom: 25px" class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input asp-for="UserName" type="text" placeholder="Kullanıcı adınız" class="form-control" autocomplete="off">
+                    </div>
+                    <div style="margin-bottom: 25px" class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input id="userPas" asp-for="Password" type="password" placeholder="Sifrenizi giriniz" maxlength="8" class="form-control" autocomplete="off">
+                    </div>
+                    <div id="text" style="display:none;color:red;"><strong>Dikkat!</strong> Üst karakter tuşu (CAPSLOCK) açık!</div>
+                    <div style="float:left; font-size: 90%;"><a href="~/Account/Register">Hesap Oluştur</a></div>
+                    <br />
+                    <div class="input-group">
+                        <div class="checkbox">
+                            <label>
+                                <input asp-for="RememberMe" type="checkbox" value="True"> Beni Hatırla
+                            </label>
+                        </div>
+                    </div>
+                    <div style="margin-top:10px" class="form-group">
+                        <div class="col-sm-12 controls">
+                            <input type="submit" value="Giriş" onclick="this.value=(this.value=='Giriş')?('Giriş yapılıyor..'):('Giriş')" class="btn btn-success" />
+                        </div>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var input = document.getElementById("userPas");
+        var text = document.getElementById("text");
+        input.addEventListener("keyup", function (event) {
+            if (event.getModifierState("CapsLock")) {
+                text.style.display = "block";
+            } else {
+                text.style.display = "none"
+            }
+        });
+    </script>
+</body>
+</html>

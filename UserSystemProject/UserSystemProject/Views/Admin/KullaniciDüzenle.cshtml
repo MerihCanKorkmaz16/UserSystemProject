@@ -1,0 +1,98 @@
+﻿@model UserSystemProject.Models.Admin.KullaniciRolViewModel
+@{
+    ViewData["Title"] = "KullaniciDüzenle";
+    Layout = "~/Views/_Layout.cshtml";
+}
+
+<div class="card border-info">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 style="text-align:center">Mevcut Kullanıcılar ve Rolleri</h4>
+                <hr>
+            </div>
+        </div>
+        <div class="row" style="margin-left:0px;margin-right:0px;">
+            <div class="col-md-12">
+                @if (TempData["message"] != null)
+                {
+                    <div class="alert alert-info" style="text-align:center">
+                        @TempData["message"]
+                    </div>
+                }
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th scope="col">Kullanıcı Adı</th>
+                            <th scope="col">Ad Soyad</th>
+                            <th scope="col">Email</th>
+                            <th scope="col" style="text-align:center"><i class="fa fa-cog" aria-hidden="true"></i> Mevcut Rol</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Users)
+                        {
+                            <tr>
+                                <td>@item.UserName</td>
+                                <td>@item.FirstName @item.LastName</td>
+                                <td>@item.Email</td>
+                                <td>
+                                    <a class="view" data-target="/Admin/KullaniciRolDüzenle/?userId=@item.Id"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Güncelle</a>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="modelView" tabindex="-1" role="dialog" aria-labelledby="modelViewLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        // a tagimizde bulunan .view classımıza click olduğunda
+        $("body").on("click", ".view", function () {
+            //data-target dan url mizi al
+            var url = $(this).data("target");
+            //bu urlimizi post et
+            $.post(url, function (data) { })
+                //eğer işlemimiz başarılı bir şekilde gerçekleşirse
+                .done(function (data) {
+                    //gelen datayı .modal-body mizin içerise html olarak ekle
+                    $("#modelView .modal-body").html(data);
+                    //sonra da modalimizi göster
+                    $("#modelView").modal("show");
+                })
+                //eğer işlem başarısız olursa
+                .fail(function () {
+                    //modalımızın bodysine Error! yaz
+                    $("#modelView .modal-body").text("Error!!");
+                    //sonra da modalimizi göster
+                    $("#modelView").modal("show");
+                })
+
+        });
+    })
+</script>
+
+
